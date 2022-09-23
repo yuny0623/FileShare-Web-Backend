@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
-public class KeyController {
-    @Autowired
+public class UserController {
     private final UserRepository userRepository;
 
-    public KeyController(UserRepository userRepository){
+    @Autowired
+    public UserController(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/register")
-    public String registerPublicKey(@RequestBody UserDto userDto){
+    @PostMapping("/join")
+    public String registerPublicKey(@RequestBody UserDto userDto) {
         User user = new User();
         user.setPublicKey(userDto.getPublicKey());
         user.setIntro(userDto.getIntro());
