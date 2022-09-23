@@ -1,4 +1,4 @@
-package com.example.imageGhost.Domain;
+package com.example.imageGhost.Domain.Dto;
 
 import lombok.Getter;
 import lombok.Setter;

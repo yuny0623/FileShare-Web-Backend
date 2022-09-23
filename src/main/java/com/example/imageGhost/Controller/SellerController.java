@@ -2,7 +2,7 @@ package com.example.imageGhost.Controller;
 
 
 import com.example.imageGhost.Domain.Seller;
-import com.example.imageGhost.Domain.SellerDto;
+import com.example.imageGhost.Domain.Dto.SellerDto;
 import com.example.imageGhost.Repository.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

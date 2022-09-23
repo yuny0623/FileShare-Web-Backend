@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
     Message save(Message message);
-    List<Message> findAllByOwnerPublicKey(String ownerPublicKey);
+    List<Message> findAllByReceiverPublicKey(String publicKey);
 }

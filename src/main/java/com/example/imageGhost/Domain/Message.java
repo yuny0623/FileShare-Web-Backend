@@ -18,6 +18,7 @@ public class Message {
     @Id
     private Long id;
 
-    private String ownerPublicKey;
+    private String senderPublicKey;
+    private String receiverPublicKey;
     private String content;
 }
