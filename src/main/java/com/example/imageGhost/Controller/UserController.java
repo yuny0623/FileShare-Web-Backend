@@ -3,6 +3,7 @@ package com.example.imageGhost.Controller;
 import com.example.imageGhost.Domain.Message;
 import com.example.imageGhost.Domain.User;
 import com.example.imageGhost.Domain.UserDto;
+import com.example.imageGhost.Repository.MessageRepository;
 import com.example.imageGhost.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,12 @@ import java.util.List;
 @Controller
 public class UserController {
     private final UserRepository userRepository;
+    private final MessageRepository messageRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository){
+    public UserController(UserRepository userRepository, MessageRepository messageRepository) {
         this.userRepository = userRepository;
+        this.messageRepository = messageRepository;
     }
 
     @PostMapping("/join")
@@ -33,17 +36,17 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAllUser(){
+    public List<User> getAllUser() {
         return userRepository.findAll();
     }
 
-    @PostMapping("/bridge/{public-key}")
-    public void sendToSomeone(@PathVariable("public-key") String publicKey){
+    @PostMapping("/box")
+    public void sendToSomeone(@RequestBody Message message) {
 
     }
 
     @GetMapping("/box/{public-key}")
-    public List<Message> getMyMessage(@PathVariable("public-key") String publicKey){
-
+    public List<Message> getMyMessage(@PathVariable("public-key") String publicKey) {
+        return messageRepository.findAllByOwnerPublicKey(publicKey);
     }
 }
