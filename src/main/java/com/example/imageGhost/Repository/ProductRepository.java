@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Product save(Product product);
-    @Override
-    List<Product> findAllById(Iterable<Long> longs);
+    List<Product> findAllById(Long id);
 
     List<Product> findAll();
 }

@@ -41,7 +41,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping("/box")
+    @PostMapping("/message")
     public Message sendToSomeone(@RequestBody MessageDto messageDto) {
         Message message = new Message();
         message.setReceiverPublicKey(messageDto.getReceiverPublicKey());
