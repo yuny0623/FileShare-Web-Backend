@@ -2,6 +2,7 @@ package com.example.imageGhost.Controller;
 
 import com.example.imageGhost.Domain.Product;
 import com.example.imageGhost.Domain.Seller;
+import com.example.imageGhost.Repository.ProductRepository;
 import com.example.imageGhost.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,14 +14,16 @@ import java.util.List;
 public class MarketController {
 
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public MarketController(UserRepository userRepository){
+    public MarketController(UserRepository userRepository, ProductRepository productRepository){
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
     }
 
     @GetMapping("/product")
     public List<Product> getProduct(){
-
+        return productRepository.findAll();
     }
 }

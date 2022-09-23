@@ -1,12 +1,17 @@
 package com.example.imageGhost.Controller;
 
+import com.example.imageGhost.Domain.Message;
 import com.example.imageGhost.Domain.User;
 import com.example.imageGhost.Domain.UserDto;
 import com.example.imageGhost.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -24,6 +29,21 @@ public class UserController {
         user.setIntro(userDto.getIntro());
         user.setPoint(0);
         userRepository.save(user);
-        return user.getIntro();
+        return user.getPublicKey();
+    }
+
+    @GetMapping("/users")
+    public List<User> getAllUser(){
+        return userRepository.findAll();
+    }
+
+    @PostMapping("/bridge/{public-key}")
+    public void sendToSomeone(@PathVariable("public-key") String publicKey){
+
+    }
+
+    @GetMapping("/box/{public-key}")
+    public List<Message> getMyMessage(@PathVariable("public-key") String publicKey){
+
     }
 }
