@@ -1,5 +1,6 @@
 package com.example.imageGhost.Controller;
 
+import com.example.imageGhost.Domain.Product;
 import com.example.imageGhost.Domain.Seller;
 import com.example.imageGhost.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,10 @@ public class MarketController {
     @Autowired
     public MarketController(UserRepository userRepository){
         this.userRepository = userRepository;
+    }
+
+    @GetMapping("/product")
+    public List<Product> getProduct(){
+
     }
 }
