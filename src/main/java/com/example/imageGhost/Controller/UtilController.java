@@ -10,9 +10,4 @@ public class UtilController {
     public String index(){
         return "index";
     }
-
-    @GetMapping("/health-check")
-    public String healthCheck(){
-        return "health-check";
-    }
 }
