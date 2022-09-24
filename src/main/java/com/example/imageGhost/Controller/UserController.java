@@ -40,18 +40,4 @@ public class UserController {
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
-
-    @PostMapping("/message")
-    public Message sendToSomeone(@RequestBody MessageDto messageDto) {
-        Message message = new Message();
-        message.setReceiverPublicKey(messageDto.getReceiverPublicKey());
-        message.setSenderPublicKey(messageDto.getSenderPublicKey());
-        message.setContent(messageDto.getContent());
-        return messageRepository.save(message);
-    }
-
-    @GetMapping("/message/{public-key}")
-    public List<Message> getMyMessage(@PathVariable("public-key") String publicKey) {
-        return messageRepository.findAllByReceiverPublicKey(publicKey);
-    }
 }

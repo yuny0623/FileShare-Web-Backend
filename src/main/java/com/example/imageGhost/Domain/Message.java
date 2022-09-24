@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Message {
     @Id
+    @GeneratedValue
     private Long id;
 
     private String senderPublicKey;

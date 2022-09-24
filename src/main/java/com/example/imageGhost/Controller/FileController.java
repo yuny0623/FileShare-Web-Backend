@@ -6,6 +6,4 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class FileController {
 
-    @PostMapping("/file")
-    public void registerFile()
 }
