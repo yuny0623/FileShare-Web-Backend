@@ -5,12 +5,14 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
 @AllArgsConstructor
+@Table(name="hi4")
 public class User {
     @Id
     @GeneratedValue
