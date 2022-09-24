@@ -26,7 +26,7 @@ public class UserController {
         this.messageRepository = messageRepository;
     }
 
-    @PostMapping("/join")
+    @PostMapping("/public-key")
     public String registerPublicKey(@RequestBody UserDto userDto) {
         User user = new User();
         user.setPublicKey(userDto.getPublicKey());
@@ -36,7 +36,7 @@ public class UserController {
         return user.getPublicKey();
     }
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
@@ -50,7 +50,7 @@ public class UserController {
         return messageRepository.save(message);
     }
 
-    @GetMapping("/box/{public-key}")
+    @GetMapping("/message/{public-key}")
     public List<Message> getMyMessage(@PathVariable("public-key") String publicKey) {
         return messageRepository.findAllByReceiverPublicKey(publicKey);
     }

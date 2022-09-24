@@ -22,16 +22,15 @@ public class SellerController {
         this.sellerRepository = sellerRepository;
     }
 
-    @PostMapping("/register")
-    public SellerDto registerSeller(@RequestBody SellerDto sellerDto){
+    @PostMapping("/join-seller")
+    public Seller registerSeller(@RequestBody SellerDto sellerDto){
         Seller seller = new Seller();
         seller.setPublicKey(seller.getPublicKey());
         seller.setIntro(seller.getIntro());
         seller.setBTCAddress(sellerDto.getBTCAddress());
         seller.setETHAddress(sellerDto.getETHAddress());
         seller.setPoint(0);
-        sellerRepository.save(seller);
-        return sellerDto;
+        return sellerRepository.save(seller);
     }
 
     @GetMapping("/sellers")

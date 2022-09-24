@@ -8,7 +8,7 @@ public class Product {
     @Id
     private Long id;
 
-    private int price;
+    private Long price;
     private String sellerPublicKey;
     private String intro;
 }
