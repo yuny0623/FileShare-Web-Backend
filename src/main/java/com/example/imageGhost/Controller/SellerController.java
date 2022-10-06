@@ -1,18 +1,18 @@
 package com.example.imageGhost.Controller;
 
 
-import com.example.imageGhost.Domain.Seller;
 import com.example.imageGhost.Domain.Dto.SellerDto;
+import com.example.imageGhost.Domain.Seller;
 import com.example.imageGhost.Repository.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class SellerController {
 
     private final SellerRepository sellerRepository;
