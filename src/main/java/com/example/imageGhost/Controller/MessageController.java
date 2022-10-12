@@ -31,7 +31,6 @@ public class MessageController {
         /*
             AuthAnswer 를 활용한 본인인증 기능 필요함.
          */
-
         return messageRepository.findAllByReceiverPublicKey(publicKey);
     }
 }

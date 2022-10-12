@@ -14,12 +14,6 @@ public class TestController {
         return encFileDto;
     }
 
-//    @GetMapping("/test-get/{path-variable}")
-//    public boolean testGetWithPathVariableController(@PathVariable("path-variable") String pathVariable){
-//        System.out.println(pathVariable);
-//        return true;
-//    }
-
     @GetMapping("/test-get/{data}")
     public boolean testGetWithNoDataController(@PathVariable("data") String data){
         System.out.println("is checked.");

@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AuthAnswerRepository extends JpaRepository<AuthAnswer, String> {
     AuthAnswer save(AuthAnswer authAnswer);
     AuthAnswer findBySenderPublicKey(String publicKey);
+    boolean deleteBySenderPublicKey(String senderPublicKey);
 }

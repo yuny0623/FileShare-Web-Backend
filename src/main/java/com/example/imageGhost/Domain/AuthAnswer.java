@@ -20,6 +20,9 @@ public class AuthAnswer {
     @GeneratedValue
     private Long id;
 
-    private String randomString;
+    private String randomString;     // original plain text
+    private String cipherText;
+
     private String senderPublicKey;
+    private boolean isAuthenticated; // 인증 여부 - default = false
 }
