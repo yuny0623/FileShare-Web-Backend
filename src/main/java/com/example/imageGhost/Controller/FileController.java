@@ -31,7 +31,7 @@ public class FileController {
     /*
         내 파일 조회
      */
-    @GetMapping("/file/{publilc-key}")
+    @GetMapping("/file/{public-key}")
     public List<EncFile> getAllMyFile(@PathVariable("public-key") String publicKey){
         return fileRepository.findAllByOwnerPublicKey(publicKey);
     }
@@ -79,11 +79,7 @@ public class FileController {
     }
 
     /*
-        인증 정보 생성
-        random String을 public key로 암호화 ->
-        private key 로 암호화된 text를 복호화
-
-        random String 과 전달받은 값을 비교함.
+        EncFile 삭제 api - 인증된 사용자만 사용 가능
      */
     @PostMapping("/delete-auth/{public-key}")
     public boolean deleteEncFile(@PathVariable("public-key") String publicKey){
@@ -96,7 +92,7 @@ public class FileController {
     }
 
     /*
-        인증절차 1
+        인증절차 1 - 문제 받아오기
      */
     @PostMapping("/auth-problem/{public-key}")
     public String getAuthProblem(@PathVariable("public-key") String publicKey){
@@ -112,12 +108,27 @@ public class FileController {
     }
 
     /*
+        제시된 문제 다시 받아오기.
+     */
+    @GetMapping("/auth-problem/{public-key}")
+    public String getMyProblem(@PathVariable("public-key") String publicKey){
+        if(authService.isAuthenticatedUser(publicKey)){
+            return new String("");
+        }
+        AuthAnswer authAnswer = authAnswerRepository.findBySenderPublicKey(publicKey);
+        return authAnswer.getCipherText(); // 문제 재전송
+    }
+
+
+    /*
         인증절차 2
         잠만 근데... Auth Problem 의 정답지를 평문으로 보내면 안될 것 같은데...?
+        클라이언트에서 private key로 잠궈서 보내면
      */
-    @PostMapping("/auth-answer/{answer}")
-    public boolean solveAuthProblem(@PathVariable("answer") String answer){
-        return true;
+    @PostMapping("/auth-answer/{public-key}/{answer}")
+    public boolean solveAuthProblem(@PathVariable("public-key") String publicKey, @PathVariable("answer") String cipherTextedAnswer){
+        authService.decryptCipherText(cipherTextedAnswer, publicKey);
+        return true; 
     }
 
     /*
