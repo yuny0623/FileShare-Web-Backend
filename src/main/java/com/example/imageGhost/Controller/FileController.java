@@ -52,7 +52,7 @@ public class FileController {
     }
 
     /*
-        모든 EncFile 조회
+        존재하는 모든 EncFile 조회
      */
     @GetMapping("/files")
     public List<EncFile> getAllEncFile(){
@@ -83,7 +83,7 @@ public class FileController {
 //    }
 
     /*
-        EncFile 삭제 api - 인증된 사용자만 사용 가능
+        내 EncFile 삭제 api - 인증된 사용자만 사용 가능
      */
     @PostMapping("/delete-auth/{public-key}")
     public boolean deleteEncFile(@PathVariable("public-key") String publicKey){

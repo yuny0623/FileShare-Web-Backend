@@ -23,6 +23,9 @@ public class UserController {
         this.messageRepository = messageRepository;
     }
 
+    /*
+        User 회원가입
+     */
     @PostMapping("/public-key")
     public String registerPublicKey(@RequestBody UserDto userDto) {
         User user = new User();
@@ -33,6 +36,9 @@ public class UserController {
         return user.getPublicKey();
     }
 
+    /*
+        모든 유저 조회
+     */
     @GetMapping("/user")
     public List<User> getAllUser() {
         return userRepository.findAll();

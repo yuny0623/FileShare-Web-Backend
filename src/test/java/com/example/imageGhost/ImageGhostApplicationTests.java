@@ -10,4 +10,9 @@ class ImageGhostApplicationTests {
 	void contextLoads() {
 	}
 
+	/*
+		public key < - > private key 역방향 테스트
+	 */
+
+
 }

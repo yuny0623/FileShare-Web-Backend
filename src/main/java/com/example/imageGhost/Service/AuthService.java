@@ -1,9 +1,12 @@
 package com.example.imageGhost.Service;
 
+import com.example.imageGhost.Repository.UserRepository;
 import com.fasterxml.jackson.databind.ser.Serializers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
+import java.awt.desktop.UserSessionEvent;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -11,11 +14,18 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.NoSuchElementException;
 
 @Service
 public class AuthService {
 
     private static ArrayList<String> authenticatedUserList = new ArrayList<>(); // 인증된 유저 목록
+    private final UserRepository userRepository;
+
+    @Autowired
+    public AuthService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     /*
         plainText -> Cipher
@@ -74,15 +84,27 @@ public class AuthService {
     /*
         인증된 유저로 등록.
      */
-    public String registerAsAuthenticatedUser(String userPublicKey){
+    public boolean registerAsAuthenticatedUser(String userPublicKey){
+        try {
+            userRepository.findByPublicKey(userPublicKey);
+        }catch(NoSuchElementException e){
+            e.printStackTrace();
+            return false;
+        }
         authenticatedUserList.add(userPublicKey);
-        return userPublicKey;
+        return true;
     }
 
     /*
         유저 인증 여부 판별
      */
     public boolean isAuthenticatedUser(String userPublicKey){
+        try {
+            userRepository.findByPublicKey(userPublicKey);
+        }catch(NoSuchElementException e){
+            e.printStackTrace();
+            return false;
+        }
         return authenticatedUserList.contains(userPublicKey);
     }
 }
