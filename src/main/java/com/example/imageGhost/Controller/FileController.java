@@ -86,7 +86,20 @@ public class FileController {
         random String 과 전달받은 값을 비교함.
      */
     @PostMapping("/delete-auth/{public-key}")
-    public String createAuthAnswer(@PathVariable("public-key") String publicKey){
+    public boolean deleteEncFile(@PathVariable("public-key") String publicKey){
+        if(authService.isAuthenticatedUser(publicKey)){
+            fileRepository.deleteByOwnerPublicKey(publicKey);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /*
+        인증절차 1
+     */
+    @PostMapping("/auth-problem/{public-key}")
+    public String getAuthProblem(@PathVariable("public-key") String publicKey){
         String plainText = UUID.randomUUID().toString(); // 랜덤 생성 plain text
 
         AuthAnswer authAnswer = new AuthAnswer();
@@ -98,8 +111,18 @@ public class FileController {
         return authAnswer.getCipherText(); // 암호화된 답안지를 client로 전송
     }
 
-    @PostMapping("/auth-user/{public-key}")
-    public String registerAsAuthenticatedUser(@PathVariable("public-key") String publicKey){
-        return new String();
+    /*
+        인증절차 2
+        잠만 근데... Auth Problem 의 정답지를 평문으로 보내면 안될 것 같은데...?
+     */
+    @PostMapping("/auth-answer/{answer}")
+    public boolean solveAuthProblem(@PathVariable("answer") String answer){
+        return true;
     }
+
+    /*
+        Cipher 받기 -> Cipher 풀어서 제출 -> 등록됨.
+        이후부터 api 사용할때는 인증된 유저인지 확인할 수 있음.
+        서버 다운되면 메모리 날릴때 인증된 유저 목록도 날라감. <- 오히려 r디비에 유지하는 것보다 이편이 나을듯.
+     */
 }
