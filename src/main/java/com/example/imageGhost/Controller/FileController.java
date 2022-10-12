@@ -97,4 +97,9 @@ public class FileController {
         authAnswerRepository.save(authAnswer);
         return authAnswer.getCipherText(); // 암호화된 답안지를 client로 전송
     }
+
+    @PostMapping("/auth-user/{public-key}")
+    public String registerAsAuthenticatedUser(@PathVariable("public-key") String publicKey){
+        return new String();
+    }
 }

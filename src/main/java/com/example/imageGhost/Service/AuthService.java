@@ -7,10 +7,13 @@ import javax.crypto.Cipher;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ArrayList;
 import java.util.Base64;
 
 @Service
 public class AuthService {
+
+    private static ArrayList<String> authenticatedUserList = new ArrayList<>(); // 인증된 유저 목록
 
     /*
         plainText -> Cipher
@@ -36,5 +39,20 @@ public class AuthService {
             e.printStackTrace();
         }
         return encryptedData;
+    }
+
+    /*
+        인증된 유저로 등록.
+     */
+    public String registerAsAuthenticatedUser(String userPublicKey){
+        authenticatedUserList.add(userPublicKey);
+        return userPublicKey;
+    }
+
+    /*
+        유저 인증 여부 판별
+     */
+    public boolean isAuthenticatedUser(String userPublicKey){
+        return authenticatedUserList.contains(userPublicKey);
     }
 }
