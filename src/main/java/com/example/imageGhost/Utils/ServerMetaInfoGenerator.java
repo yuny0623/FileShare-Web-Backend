@@ -12,10 +12,11 @@ public class ServerMetaInfoGenerator {
     private static final int KEY_SIZE = 2048;
     private static String serverPublicKey;
     private static String serverPrivateKey;
+    
     /*
-        서버 전용 비대칭키 키페어 생성
+        서버 전용 비대칭키 키페어 생성 - SpringBoot application 구동 실행됨
      */
-    public static HashMap<String, String> generateKeyPair(){
+    public static HashMap<String, String> generateAsymmetricKeyPair(){
         HashMap<String, String> keyPairHashMap = new HashMap<>();
         try {
             SecureRandom secureRandom = new SecureRandom();
@@ -39,6 +40,4 @@ public class ServerMetaInfoGenerator {
         }
         return keyPairHashMap;
     }
-
-
 }
