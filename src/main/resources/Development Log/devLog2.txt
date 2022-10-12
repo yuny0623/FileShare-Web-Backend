@@ -27,3 +27,6 @@ https://this-programmer.tistory.com/259
 8. thymeleaf 화면은 따로 bootstrap 이랑 붙여서 만들자. -> 기초 api 완성하고 작성해보기.
 9.
 
+해야할 일:
+private key < - > public key 간에 역방향 되는지 작성한 method 로 확인하기 .
+
