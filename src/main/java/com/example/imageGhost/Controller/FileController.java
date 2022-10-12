@@ -96,7 +96,7 @@ public class FileController {
     }
 
     /*
-        인증절차 1 - 문제 받아오기
+        인증절차 1 - 문제 발행 후 받아오기
      */
     @PostMapping("/auth-problem/{public-key}")
     public String getAuthProblem(@PathVariable("public-key") String publicKey){
@@ -111,7 +111,7 @@ public class FileController {
     }
 
     /*
-        제시된 문제 다시 받아오기.
+        사용자에게 제시된 인증 문제 다시 받아오기.
      */
     @GetMapping("/auth-problem/{public-key}")
     public String getMyProblem(@PathVariable("public-key") String publicKey){
@@ -125,9 +125,7 @@ public class FileController {
 
     /*
         인증절차 2
-        잠만 근데... Auth Problem 의 정답지를 평문으로 보내면 안될 것 같은데...?
-        클라이언트에서 private key로 잠궈서 보내면 public key 로 열면 될텐데...? -> public key를 모두가 아는데?
-        -> 아 서버 public key 로 잠궈서 보내며 되지 않을까용?
+        client 에서 SERVER_PUBLIC_KEY 로 잠궈서 답안을 보냄.
      */
     @PostMapping("/auth-answer/{public-key}/{answer}")
     public boolean solveAuthProblem(@PathVariable("public-key") String publicKey, @PathVariable("answer") String cipherTextedAnswer){

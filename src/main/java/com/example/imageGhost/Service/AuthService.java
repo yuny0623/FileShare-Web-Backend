@@ -46,9 +46,17 @@ public class AuthService {
         클라이언트로부터 전달받은 정답지 해독
         -> 사용자 측에서는 정답지를 보낼때 본인의 private Key 로 난독화해서 보내기.
      */
-    public String decryptCipherText(String cipherText, String publicKey){
+    public String decryptCipherText(String cispherText, String stringPrivateKey){
         return new String();
     }
+
+
+
+
+
+
+
+
 
     /*
         인증된 유저로 등록.

@@ -25,4 +25,5 @@ https://this-programmer.tistory.com/259
 6. redis 를 도입해야하는데 굳이 도입하자면 전체 public key 리스트가 많이 불릴 것 같으데 이걸 redis 에 넣어놓는게 좋을듯. 나머지 데이터는 그렇게 많이 불리는 데이터가 아님. -> public key 만 넣읍시다.
 7. github action 은 좀 나중에 도입하자. -> 간단하게 배포만 할건데 굳이 필요한지?
 8. thymeleaf 화면은 따로 bootstrap 이랑 붙여서 만들자. -> 기초 api 완성하고 작성해보기.
+9.
 
