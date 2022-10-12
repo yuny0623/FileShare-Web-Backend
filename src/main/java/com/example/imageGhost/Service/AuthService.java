@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import java.security.KeyFactory;
+import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -46,17 +48,28 @@ public class AuthService {
         클라이언트로부터 전달받은 정답지 해독
         -> 사용자 측에서는 정답지를 보낼때 본인의 private Key 로 난독화해서 보내기.
      */
-    public String decryptCipherText(String cispherText, String stringPrivateKey){
-        return new String();
+    public String decryptCipherText(String encryptedData, String stringPrivateKey){
+        String decryptedData = null;
+        try {
+            // Private Key 객체 생성
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            byte[] bytePrivateKey = Base64.getDecoder().decode(stringPrivateKey.getBytes());
+            PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(bytePrivateKey);
+            PrivateKey privateKey = keyFactory.generatePrivate(privateKeySpec);
+
+            // 암호화 모드 설정
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+
+            // 암호문 복호화
+            byte[] byteEncryptedData = Base64.getDecoder().decode(encryptedData.getBytes());
+            byte[] byteDecryptedData = cipher.doFinal(byteEncryptedData);
+            decryptedData = new String(byteDecryptedData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return decryptedData;
     }
-
-
-
-
-
-
-
-
 
     /*
         인증된 유저로 등록.
