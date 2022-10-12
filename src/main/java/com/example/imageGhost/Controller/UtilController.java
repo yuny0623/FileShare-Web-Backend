@@ -18,9 +18,11 @@ public class UtilController {
         return "health-check";
     }
 
+    /*
+        Server Public Key 받아오기.
+     */
     @GetMapping("/server-public-key")
-    public String getServerPublicK
-    ey(){
-
+    public String getServerPublicKey(){
+        return new String();
     }
 }
