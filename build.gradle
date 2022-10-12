@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    // remove security dependency
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //	implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -30,6 +31,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //	testImplementation 'org.springframework.security:spring-security-test'
+
+
+    // swagger api
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.6.1'
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.6.1'
 }
 
 tasks.named('test') {

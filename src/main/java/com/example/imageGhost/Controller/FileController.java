@@ -47,6 +47,9 @@ public class FileController {
         return fileRepository.save(encFile);
     }
 
+    /*
+        모든 EncFile 조회
+     */
     @GetMapping("/files")
     public List<EncFile> getAllEncFile(){
         return fileRepository.findAll();
