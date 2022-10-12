@@ -4,8 +4,10 @@ import com.example.imageGhost.Domain.AuthAnswer;
 import com.example.imageGhost.Domain.Dto.AuthAnswerDto;
 import com.example.imageGhost.Domain.Dto.EncFileDto;
 import com.example.imageGhost.Domain.EncFile;
+import com.example.imageGhost.Domain.User;
 import com.example.imageGhost.Repository.AuthAnswerRepository;
 import com.example.imageGhost.Repository.FileRepository;
+import com.example.imageGhost.Repository.UserRepository;
 import com.example.imageGhost.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +22,14 @@ public class FileController {
     private final FileRepository fileRepository;
     private final AuthAnswerRepository authAnswerRepository;
     private final AuthService authService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public FileController(FileRepository fileRepository, AuthAnswerRepository authAnswerRepository, AuthService authService){
+    public FileController(FileRepository fileRepository, AuthAnswerRepository authAnswerRepository, AuthService authService, UserRepository userRepository){
         this.fileRepository = fileRepository;
         this.authAnswerRepository = authAnswerRepository;
         this.authService = authService;
+        this.userRepository = userRepository;
     }
 
     /*
@@ -62,7 +66,7 @@ public class FileController {
     public boolean deleteFile(@RequestBody AuthAnswerDto authAnswerDto){
         AuthAnswer authAnswer = null;
         try {
-            authAnswer = authAnswerRepository.findBySenderPublicKey(authAnswerDto.getSenderPublicKey());
+            authAnswer = authAnswerRepository.findBySenderPublicKey(authAnswerDto.getSenderPublicKey()); // 인증 정보가 존재해야 delete 가능.
         }catch(NoSuchElementException e){
             e.printStackTrace();
             return false;
@@ -97,7 +101,6 @@ public class FileController {
     @PostMapping("/auth-problem/{public-key}")
     public String getAuthProblem(@PathVariable("public-key") String publicKey){
         String plainText = UUID.randomUUID().toString(); // 랜덤 생성 plain text
-
         AuthAnswer authAnswer = new AuthAnswer();
         authAnswer.setSenderPublicKey(publicKey);
         authAnswer.setRandomString(plainText); // public key로 encrypt 필요.
@@ -113,7 +116,7 @@ public class FileController {
     @GetMapping("/auth-problem/{public-key}")
     public String getMyProblem(@PathVariable("public-key") String publicKey){
         if(authService.isAuthenticatedUser(publicKey)){
-            return new String("");
+            return new String(""); // empty string 리턴 -> 더 좋은 방법 있을듯?
         }
         AuthAnswer authAnswer = authAnswerRepository.findBySenderPublicKey(publicKey);
         return authAnswer.getCipherText(); // 문제 재전송
@@ -123,12 +126,27 @@ public class FileController {
     /*
         인증절차 2
         잠만 근데... Auth Problem 의 정답지를 평문으로 보내면 안될 것 같은데...?
-        클라이언트에서 private key로 잠궈서 보내면
+        클라이언트에서 private key로 잠궈서 보내면 public key 로 열면 될텐데...? -> public key를 모두가 아는데?
+        -> 아 서버 public key 로 잠궈서 보내며 되지 않을까용?
      */
     @PostMapping("/auth-answer/{public-key}/{answer}")
     public boolean solveAuthProblem(@PathVariable("public-key") String publicKey, @PathVariable("answer") String cipherTextedAnswer){
-        authService.decryptCipherText(cipherTextedAnswer, publicKey);
-        return true; 
+        try {
+            User findUser = userRepository.findByPublicKey(publicKey);
+        }catch(NoSuchElementException e){
+            e.printStackTrace();
+            return false;
+        }
+        String plainTextAnswer = authService.decryptCipherText(cipherTextedAnswer, publicKey);
+
+        AuthAnswer authAnswer = authAnswerRepository.findBySenderPublicKey(publicKey);
+        if(authAnswer.getRandomString().equals(plainTextAnswer)){
+            authAnswer.setAuthenticated(true); // 인증 처리
+            authAnswerRepository.save(authAnswer);
+            return true;
+        }else{
+            return false; // 정답지가 틀려서 인증 실패
+        }
     }
 
     /*

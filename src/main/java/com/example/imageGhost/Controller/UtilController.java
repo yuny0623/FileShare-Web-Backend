@@ -17,4 +17,10 @@ public class UtilController {
     public String healthCheck(){
         return "health-check";
     }
+
+    @GetMapping("/server-public-key")
+    public String getServerPublicK
+    ey(){
+
+    }
 }

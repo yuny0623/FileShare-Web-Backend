@@ -3,6 +3,10 @@
 참고 블로그:
 https://this-programmer.tistory.com/259
 
+오늘 개발 컨셉:
+인증받은 사용자만 delete 진행할 수 있음. -> 누구든 등록은 자유, 삭제는 인증받은 사람만 가능.
+
+
 진행사항:
 1. api 개발 계속 진행중.
 2. 사용자 인증 방식 구현 완료 -> problem 을 내면 encrypt 해서 Answer 을 제출하는 방식으로 해결함.
