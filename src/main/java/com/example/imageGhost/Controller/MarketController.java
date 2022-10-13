@@ -24,6 +24,9 @@ public class MarketController {
         this.productRepository = productRepository;
     }
 
+    /*
+        상품 목록 조회
+     */
     @GetMapping("/product")
     public List<Product> getProduct(){
         return productRepository.findAll();

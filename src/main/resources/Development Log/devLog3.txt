@@ -7,16 +7,14 @@ private key  < - > public key 역변환 확인하기.
 -> 코드 상에서 고쳐야할 부분이 꽤 많음. 지금 쓰는 코드가 아니라 안에서 커스텀하거나 아예 메서드를 불러다 쓰는 방식으로 바꿔야 할듯.
 그런데 해당 이유보다 더 본질적인 문제는 통상 public key로는 encryption을 하지만 private key로는 encryption 을 하지 않는다는 것임.
 당연하겠지만 private key로 encryption 을 하면 당연히 누구나 접근 가능한 public key로 복호화가 되기 때문에 의미없는 짓임.
-
+--> 해결방법? -> 클라이언트에서 서버 public key 로 encryption한 뒤 서버로 전송 -> 이후에 서버에서 서버 private key 로 전달받은 정답지를 decryption하면 됨.
 
 진행사항:
 1. 테스트 코드 작성중.
 2. MessageController 쪽 리팩토링함.
 3. 이제 슬슬 themeleaf 쪽 건드려도 될듯? -> 만약 thymeleaf 쪽 작업할거면 page 에서 작업하는것만 따로 페이지에 보여줄 수 있게 만들어야할 듯.
 
-클라이언트에서 서버 public key 로 encryption한 뒤 서버로 전송 -> 이후에 서버에서 서버 private key 로 전달받은 정답지를 decryption하면 됨.
-
 이슈:
 이슈 없음.
-
+thymeleaf 개발 어떻게 하죵? html 어렵네 ㄷㄷ
 

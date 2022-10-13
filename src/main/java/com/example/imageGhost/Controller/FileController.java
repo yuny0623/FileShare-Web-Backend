@@ -9,6 +9,8 @@ import com.example.imageGhost.Repository.AuthAnswerRepository;
 import com.example.imageGhost.Repository.FileRepository;
 import com.example.imageGhost.Repository.UserRepository;
 import com.example.imageGhost.Service.AuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,9 @@ public class FileController {
     private final AuthAnswerRepository authAnswerRepository;
     private final AuthService authService;
     private final UserRepository userRepository;
+
+    // Logger 설정
+    private final Logger logger = LoggerFactory.getLogger("FileController Log");
 
     @Autowired
     public FileController(FileRepository fileRepository, AuthAnswerRepository authAnswerRepository, AuthService authService, UserRepository userRepository){
@@ -49,13 +54,15 @@ public class FileController {
     }
 
     /*
-        파일 저장하기
+        파일 등록하기
      */
     @PostMapping("/file")
     public EncFile saveFile(@RequestBody EncFileDto encFileDto){
+        logger.info(encFileDto.getOwnerPublicKey() + ": saved file.");
+
         EncFile encFile = new EncFile();
-        encFile.setCiphertext(encFile.getCiphertext());
-        encFile.setOwnerPublicKey(encFile.getOwnerPublicKey());
+        encFile.setCiphertext(encFileDto.getCiphertext());
+        encFile.setOwnerPublicKey(encFileDto.getOwnerPublicKey());
         return fileRepository.save(encFile);
     }
 
@@ -70,11 +77,13 @@ public class FileController {
     /*
         내 EncFile 삭제 api - 인증된 사용자만 사용 가능
      */
-    @PostMapping("/delete-auth/{public-key}")
+    @DeleteMapping("/file/{public-key}")
     public boolean deleteEncFile(@PathVariable("public-key") String publicKey){
         if(!authService.isAuthenticatedUser(publicKey)){
             return false;
         }
+
+        logger.info(publicKey + ": deleted file.");
         fileRepository.deleteByOwnerPublicKey(publicKey);
         return true;
     }

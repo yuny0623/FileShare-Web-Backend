@@ -22,6 +22,9 @@ public class SellerController {
         this.sellerRepository = sellerRepository;
     }
 
+    /*
+        판매자로 등록
+     */
     @PostMapping("/join-seller")
     public Seller registerSeller(@RequestBody SellerDto sellerDto){
         Seller seller = new Seller();
@@ -33,6 +36,9 @@ public class SellerController {
         return sellerRepository.save(seller);
     }
 
+    /*
+        모든 판매자 조회
+     */
     @GetMapping("/sellers")
     public List<Seller> getAllSeller(){
         return sellerRepository.findAll();

@@ -40,15 +40,4 @@ public class AgoraController {
         return commentRepository.save(comment);
     }
 
-    /*
-    게시물 작성
-     */
-
-    /*
-    게시물 삭제
-     */
-
-    /*
-    댓글 삭제
-     */
 }
