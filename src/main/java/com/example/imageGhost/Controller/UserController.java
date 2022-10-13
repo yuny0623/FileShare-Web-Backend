@@ -7,6 +7,7 @@ import com.example.imageGhost.Repository.MessageRepository;
 import com.example.imageGhost.Repository.KeyStoreRepository;
 import com.example.imageGhost.Repository.UserRepository;
 import com.example.imageGhost.Utils.ServerMetaInfoGenerator;
+import org.apache.catalina.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class UserController {
     @PostMapping("/public-key")
     public String registerPublicKey(@RequestBody UserDto userDto) {
         // 중복 가입 방지
-        if(ServerMetaInfoGenerator.publicKeyList.contains(userDto.getPublicKey())){
+        if(ServerMetaInfoGenerator.PUBLIC_KEY_LIST.contains(userDto.getPublicKey())){
             return new String("이미 존재하는 회원입니다.");
         }
         User user = new User();
@@ -42,11 +43,13 @@ public class UserController {
         user.setIntro(userDto.getIntro());
         user.setPoint(0);
         userRepository.save(user);
-        ServerMetaInfoGenerator.publicKeyList.add(userDto.getPublicKey()); // 서버에 등록
+
+        ServerMetaInfoGenerator.PUBLIC_KEY_LIST.add(userDto.getPublicKey()); // 서버에 등록
+
         KeyStore keyStore = new KeyStore();
         keyStore.setPublicKey(userDto.getPublicKey());
-
         keyStoreRepository.save(keyStore);
+
         return user.getPublicKey();
     }
 
@@ -58,5 +61,11 @@ public class UserController {
         return userRepository.findAll();
     }
 
-
+    /*
+        모든 public key 리스트 조회
+     */
+    @GetMapping("/public-key")
+    public List<String> getAllPublicKey(){
+        return ServerMetaInfoGenerator.PUBLIC_KEY_LIST;
+    }
 }

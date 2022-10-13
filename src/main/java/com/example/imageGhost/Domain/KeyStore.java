@@ -18,5 +18,5 @@ public class KeyStore {
     @Id
     @GeneratedValue
     private Long id;
-    private String publicKey;
+    private String publicKey; // 등록된 public key
 }
