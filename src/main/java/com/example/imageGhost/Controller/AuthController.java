@@ -37,7 +37,7 @@ public class AuthController {
         AuthAnswer authAnswer = new AuthAnswer();
         authAnswer.setSenderPublicKey(publicKey);
         authAnswer.setRandomString(plainText); // public key로 encrypt 필요.
-        authAnswer.setCipherText(authService.encryptPlainText(plainText, publicKey));
+        authAnswer.setCipherText(authService.encryptPlainTextWithPublicKey(plainText, publicKey));
         authAnswer.setAuthenticated(false);
         authAnswerRepository.save(authAnswer);
         return authAnswer.getCipherText(); // 암호화된 답안지를 client로 전송
@@ -68,7 +68,7 @@ public class AuthController {
             e.printStackTrace();
             return false;
         }
-        String plainTextAnswer = authService.decryptCipherText(cipherTextedAnswer, publicKey);
+        String plainTextAnswer = authService.decryptCipherTextWithPublicKey(cipherTextedAnswer, publicKey);
 
         AuthAnswer authAnswer = authAnswerRepository.findBySenderPublicKey(publicKey);
         if(authAnswer.getRandomString().equals(plainTextAnswer)){

@@ -52,32 +52,32 @@ public class AuthService {
         }
         return encryptedData;
     }
-
-    /*
-        PlainText -> CipherText
-        via private key
-     */
-    public static String encryptPlainTextWithPrivateKey(String plainText, String stringPrivateKey){
-        String encryptedData = null;
-        try{
-            // Public key 만들기
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            byte[] bytePrivateKey = Base64.getDecoder().decode(stringPrivateKey.getBytes());
-            X509EncodedKeySpec privateKeySpec = new X509EncodedKeySpec(bytePrivateKey);
-            PrivateKey privateKey = keyFactory.generatePrivate(privateKeySpec);
-
-            // 암호화 모드 설정
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(cipher.ENCRYPT_MODE, privateKey);
-
-            // plainText 암호화
-            byte[] byteEncryptedData = cipher.doFinal(plainText.getBytes());
-            encryptedData = Base64.getEncoder().encodeToString(byteEncryptedData);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return encryptedData;
-    }
+//
+//    /*
+//        PlainText -> CipherText
+//        via private key
+//     */
+//    public static String encryptPlainTextWithPrivateKey(String plainText, String stringPrivateKey){
+//        String encryptedData = null;
+//        try{
+//            // Public key 만들기
+//            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//            byte[] bytePrivateKey = Base64.getDecoder().decode(stringPrivateKey.getBytes());
+//            X509EncodedKeySpec privateKeySpec = new X509EncodedKeySpec(bytePrivateKey);
+//            PrivateKey privateKey = keyFactory.generatePrivate(privateKeySpec);
+//
+//            // 암호화 모드 설정
+//            Cipher cipher = Cipher.getInstance("RSA");
+//            cipher.init(cipher.ENCRYPT_MODE, privateKey);
+//
+//            // plainText 암호화
+//            byte[] byteEncryptedData = cipher.doFinal(plainText.getBytes());
+//            encryptedData = Base64.getEncoder().encodeToString(byteEncryptedData);
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//        return encryptedData;
+//    }
 
     /*
         CipherText -> PlainText
@@ -107,33 +107,33 @@ public class AuthService {
         }
         return decryptedData;
     }
-
-    /*
-        CipherText -> PlainText
-        via public key
-     */
-    public static String decryptCipherTextWithPublicKeY(String encryptedData, String stringPublicKey){
-        String decryptedData = null;
-        try {
-            // Private Key 객체 생성
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            byte[] bytePublicKey = Base64.getDecoder().decode(stringPublicKey.getBytes());
-            PKCS8EncodedKeySpec publicKeySpec = new PKCS8EncodedKeySpec(bytePublicKey);
-            PublicKey publicKey = keyFactory.generatePublic(publicKeySpec);
-
-            // 암호화 모드 설정
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, publicKey);
-
-            // 암호문 복호화
-            byte[] byteEncryptedData = Base64.getDecoder().decode(encryptedData.getBytes());
-            byte[] byteDecryptedData = cipher.doFinal(byteEncryptedData);
-            decryptedData = new String(byteDecryptedData);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return decryptedData;
-    }
+//
+//    /*
+//        CipherText -> PlainText
+//        via public key
+//     */
+//    public static String decryptCipherTextWithPublicKey(String encryptedData, String stringPublicKey){
+//        String decryptedData = null;
+//        try {
+//            // Private Key 객체 생성
+//            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//            byte[] bytePublicKey = Base64.getDecoder().decode(stringPublicKey.getBytes());
+//            PKCS8EncodedKeySpec publicKeySpec = new PKCS8EncodedKeySpec(bytePublicKey);
+//            PublicKey publicKey = keyFactory.generatePublic(publicKeySpec);
+//
+//            // 암호화 모드 설정
+//            Cipher cipher = Cipher.getInstance("RSA");
+//            cipher.init(Cipher.DECRYPT_MODE, publicKey);
+//
+//            // 암호문 복호화
+//            byte[] byteEncryptedData = Base64.getDecoder().decode(encryptedData.getBytes());
+//            byte[] byteDecryptedData = cipher.doFinal(byteEncryptedData);
+//            decryptedData = new String(byteDecryptedData);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return decryptedData;
+//    }
 
     /*
         인증된 유저로 등록.

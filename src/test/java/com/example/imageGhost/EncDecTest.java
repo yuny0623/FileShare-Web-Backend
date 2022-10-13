@@ -25,8 +25,8 @@ public class EncDecTest {
         String plainText = "ImageGhost";
 
         // when
-        String cipherText = AuthService.encryptPlainText(plainText, publicKey); // public key로 암호화
-        String receivedPlainText = AuthService.decryptCipherText(cipherText, privateKey); // private key로 복호화
+        String cipherText = AuthService.encryptPlainTextWithPublicKey(plainText, publicKey); // public key로 암호화
+        String receivedPlainText = AuthService.decryptCipherTextWithPrivateKey(cipherText, privateKey); // private key로 복호화
 
         // then
         Assertions.assertEquals(receivedPlainText, plainText);
@@ -41,8 +41,8 @@ public class EncDecTest {
         String plainText = "ImageGhost";
 
         // when
-        String cipherText = AuthService.encryptPlainText(plainText, privateKey); // public key로 암호화
-        String receivedPlainText = AuthService.decryptCipherText(cipherText, publicKey); // private key로 복호화
+        String cipherText = AuthService.encryptPlainTextWithPrivateKey(plainText, privateKey); // public key로 암호화
+        String receivedPlainText = AuthService.decryptCipherTextWithPublicKey(cipherText, publicKey); // private key로 복호화
 
         // then
         Assertions.assertEquals(receivedPlainText, plainText);

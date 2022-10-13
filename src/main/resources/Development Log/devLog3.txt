@@ -8,6 +8,7 @@ private key  < - > public key 역변환 확인하기.
 진행사항:
 1. 테스트 코드 작성중...
 
+클라이언트에서 서버 public key 로 encryption -> 서버에서 서버 private key 로 decryption
 
 이슈:
 
