@@ -1,5 +1,6 @@
 package com.example.imageGhost.Controller;
 
+import com.example.imageGhost.Utils.ServerMetaInfoGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +20,10 @@ public class UtilController {
     }
 
     /*
-        Server Public Key 받아오기.
+        Server Public Key 받기
      */
     @GetMapping("/server-public-key")
     public String getServerPublicKey(){
-        return new String();
+        return ServerMetaInfoGenerator.SERVER_PUBLIC_KEY;
     }
 }

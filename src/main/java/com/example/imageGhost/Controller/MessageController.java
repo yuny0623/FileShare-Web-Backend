@@ -44,7 +44,7 @@ public class MessageController {
             messageList = messageRepository.findAllByReceiverPublicKey(publicKey);
         }catch(NoSuchElementException e){
             e.printStackTrace();
-            return new ArrayList<>();
+            return new ArrayList<>(); // return empty list
         }
         return messageList;
     }
@@ -55,14 +55,24 @@ public class MessageController {
      */
     @DeleteMapping("/message/{public-key}")
     public void deleteAllMyMessage(@PathVariable("public-key") String publicKey){
+        /*
+            유저 인증 필요.
+         */
         messageRepository.deleteAllByReceiverPublicKey(publicKey);
     }
 
     /*
         메시지 한건 조회
      */
-    @GetMapping("/message/{id}")
-    public Message getMySingleMessage(@PathVariable("id") Long id){
-        return messageRepository.findById(id).get();
+    @GetMapping("/message/{public-key}/{id}")
+    public Message getMySingleMessage(@PathVariable("public-key") String publicKey, @PathVariable("id") Long id){
+        Message findMessage;
+        try {
+            findMessage = messageRepository.findByReceiverPublicKeyAndId(publicKey, id);
+        }catch(NoSuchElementException e){
+            e.printStackTrace();
+            return new Message();
+        }
+        return findMessage;
     }
 }

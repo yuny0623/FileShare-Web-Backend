@@ -13,8 +13,8 @@ public class ServerMetaInfoGenerator {
 
     public static ArrayList<String> PUBLIC_KEY_LIST = new ArrayList<>(); // public key 리스트
     private static final int KEY_SIZE = 2048;
-    private static String serverPublicKey;
-    private static String serverPrivateKey;
+    public static String SERVER_PUBLIC_KEY;
+    private static String SERVER_PRIVATE_KEY; // private key 키워드는 private 으로 지정. 
     
     /*
         서버 전용 비대칭키 키페어 생성 - SpringBoot application 구동 실행됨
@@ -33,8 +33,8 @@ public class ServerMetaInfoGenerator {
             String stringPublicKey = Base64.getEncoder().encodeToString(publicKey.getEncoded());
             String stringPrivateKey = Base64.getEncoder().encodeToString(privateKey.getEncoded());
 
-            ServerMetaInfoGenerator.serverPrivateKey = stringPrivateKey;
-            ServerMetaInfoGenerator.serverPublicKey = stringPublicKey;
+            ServerMetaInfoGenerator.SERVER_PUBLIC_KEY = stringPublicKey;
+            ServerMetaInfoGenerator.SERVER_PRIVATE_KEY = stringPrivateKey;
 
             keyPairHashMap.put("publicKey", stringPublicKey);
             keyPairHashMap.put("privateKey", stringPrivateKey);
