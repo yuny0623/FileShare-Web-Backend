@@ -2,6 +2,7 @@ package com.example.imageGhost.Controller;
 
 import com.example.imageGhost.Domain.Dto.MessageDto;
 import com.example.imageGhost.Domain.Message;
+import com.example.imageGhost.Domain.User;
 import com.example.imageGhost.Repository.MessageRepository;
 import com.example.imageGhost.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,11 +55,15 @@ public class MessageController {
         delete api 는 인증 후 사용 가능.
      */
     @DeleteMapping("/message/{public-key}")
-    public void deleteAllMyMessage(@PathVariable("public-key") String publicKey){
-        /*
-            유저 인증 필요.
-         */
+    public boolean deleteAllMyMessage(@PathVariable("public-key") String publicKey){
+        try {
+            User findUser = userRepository.findByPublicKey(publicKey);
+        }catch(NoSuchElementException e){
+            e.printStackTrace();
+            return false;
+        }
         messageRepository.deleteAllByReceiverPublicKey(publicKey);
+        return true;
     }
 
     /*
