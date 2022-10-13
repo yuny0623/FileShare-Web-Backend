@@ -12,6 +12,7 @@ import com.example.imageGhost.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -37,7 +38,14 @@ public class FileController {
      */
     @GetMapping("/file/{public-key}")
     public List<EncFile> getAllMyFile(@PathVariable("public-key") String publicKey){
-        return fileRepository.findAllByOwnerPublicKey(publicKey);
+        List<EncFile> encFiles;
+        try {
+            encFiles = fileRepository.findAllByOwnerPublicKey(publicKey);
+        }catch(NoSuchElementException e){
+            e.printStackTrace();
+            return new ArrayList<>(); // return empty list
+        }
+        return encFiles;
     }
 
     /*
@@ -59,40 +67,15 @@ public class FileController {
         return fileRepository.findAll();
     }
 
-//    /*
-//        EncFile 삭제 api. 인증 정보가 없으면 삭제 불가능.
-//     */
-//    @DeleteMapping("/file/{public-key}")
-//    public boolean deleteFile(@RequestBody AuthAnswerDto authAnswerDto){
-//        AuthAnswer authAnswer = null;
-//        try {
-//            authAnswer = authAnswerRepository.findBySenderPublicKey(authAnswerDto.getSenderPublicKey()); // 인증 정보가 존재해야 delete 가능.
-//        }catch(NoSuchElementException e){
-//            e.printStackTrace();
-//            return false;
-//        }
-//        if(authAnswer.getRandomString().equals(authAnswerDto.getAnswer())){
-//            // 1. EncFile 삭제
-//            fileRepository.deleteByOwnerPublicKey(authAnswerDto.getSenderPublicKey());
-//            // 2. AuthAnsewr 삭제
-//            authAnswerRepository.deleteBySenderPublicKey(authAnswerDto.getSenderPublicKey());
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
-
     /*
         내 EncFile 삭제 api - 인증된 사용자만 사용 가능
      */
     @PostMapping("/delete-auth/{public-key}")
     public boolean deleteEncFile(@PathVariable("public-key") String publicKey){
-        if(authService.isAuthenticatedUser(publicKey)){
-            fileRepository.deleteByOwnerPublicKey(publicKey);
-            return true;
-        }else{
+        if(!authService.isAuthenticatedUser(publicKey)){
             return false;
         }
+        fileRepository.deleteByOwnerPublicKey(publicKey);
+        return true;
     }
-
 }
