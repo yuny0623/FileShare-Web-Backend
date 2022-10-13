@@ -20,7 +20,7 @@ public class AuthAnswer {
     @GeneratedValue
     private Long id;
 
-    private String randomString;     // original plain text
+    private String randomStringAnswer;     // original plain text
     private String cipherText;
 
     private String senderPublicKey;

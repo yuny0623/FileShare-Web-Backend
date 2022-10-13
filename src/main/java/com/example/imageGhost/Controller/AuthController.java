@@ -1,5 +1,6 @@
 package com.example.imageGhost.Controller;
 
+import com.example.imageGhost.Config;
 import com.example.imageGhost.Domain.AuthAnswer;
 import com.example.imageGhost.Domain.User;
 import com.example.imageGhost.Repository.AuthAnswerRepository;
@@ -36,7 +37,7 @@ public class AuthController {
         String plainText = UUID.randomUUID().toString(); // 랜덤 생성 plain text
         AuthAnswer authAnswer = new AuthAnswer();
         authAnswer.setSenderPublicKey(publicKey);
-        authAnswer.setRandomString(plainText); // public key로 encrypt 필요.
+        authAnswer.setRandomStringAnswer(plainText); // public key로 encrypt 필요.
         authAnswer.setCipherText(authService.encryptPlainTextWithPublicKey(plainText, publicKey));
         authAnswer.setAuthenticated(false);
         authAnswerRepository.save(authAnswer);
@@ -48,8 +49,8 @@ public class AuthController {
      */
     @GetMapping("/auth-problem/{public-key}")
     public String getMyProblem(@PathVariable("public-key") String publicKey){
-        if(authService.isAuthenticatedUser(publicKey)){
-            return new String(""); // empty string 리턴 -> 더 좋은 방법 있을듯?
+        if(!authService.isAuthenticatedUser(publicKey)){
+            return new String("");
         }
         AuthAnswer authAnswer = authAnswerRepository.findBySenderPublicKey(publicKey);
         return authAnswer.getCipherText(); // 문제 재전송
@@ -59,19 +60,21 @@ public class AuthController {
     /*
         인증절차 2
         client 에서 SERVER_PUBLIC_KEY 로 잠궈서 답안을 보냄.
+        SERVER 에서는 SERVER_PRIVATE_KEY로 답안을 열어서 답안지를 확인.
      */
     @PostMapping("/auth-answer/{public-key}/{answer}")
     public boolean solveAuthProblem(@PathVariable("public-key") String publicKey, @PathVariable("answer") String cipherTextedAnswer){
         try {
-            User findUser = userRepository.findByPublicKey(publicKey); // findUser 가 오버헤드 ? 안쓸거면 그냥 할당도 하지말까요?
+            User findUser = userRepository.findByPublicKey(publicKey);
         }catch(NoSuchElementException e){
             e.printStackTrace();
             return false;
         }
-        String plainTextAnswer = authService.decryptCipherTextWithPublicKey(cipherTextedAnswer, publicKey);
+        // SERVER_PUBLIC_KEY로 암호화해서 보낸 답안지를 SERVER_PRIVATE_KEY로 복호화
+        String plainTextAnswer = authService.decryptCipherTextWithPrivateKey(cipherTextedAnswer, Config.SERVER_PRIVATE_KEY);
 
         AuthAnswer authAnswer = authAnswerRepository.findBySenderPublicKey(publicKey);
-        if(authAnswer.getRandomString().equals(plainTextAnswer)){
+        if(authAnswer.getRandomStringAnswer().equals(plainTextAnswer)){
             authAnswer.setAuthenticated(true); // 인증 처리
             authAnswerRepository.save(authAnswer);
             return true;
@@ -79,10 +82,4 @@ public class AuthController {
             return false; // 정답지가 틀려서 인증 실패
         }
     }
-
-    /*
-        Cipher 받기 -> Cipher 풀어서 제출 -> 등록됨.
-        이후부터 api 사용할때는 인증된 유저인지 확인할 수 있음.
-        서버 다운되면 메모리 날릴때 인증된 유저 목록도 날라감. <- 오히려 r디비에 유지하는 것보다 이편이 나을듯.
-     */
 }
