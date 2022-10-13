@@ -4,11 +4,14 @@ import lombok.Getter;
 import org.apache.catalina.Server;
 
 import java.security.*;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 
 @Getter
 public class ServerMetaInfoGenerator {
+
+    public static ArrayList<String> publicKeyList = new ArrayList<>(); // public key 리스트
     private static final int KEY_SIZE = 2048;
     private static String serverPublicKey;
     private static String serverPrivateKey;
