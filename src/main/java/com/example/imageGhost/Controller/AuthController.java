@@ -45,7 +45,7 @@ public class AuthController {
     }
 
     /*
-        사용자에게 제시된 인증 문제 다시 받아오기.
+        나에게 제시된 인증 문제 다시 받아오기.
      */
     @GetMapping("/auth-problem/{public-key}")
     public String getMyProblem(@PathVariable("public-key") String publicKey){
@@ -82,4 +82,13 @@ public class AuthController {
             return false; // 정답지가 틀려서 인증 실패
         }
     }
+
+    /*
+        해당 publicKey 의 소유주가 인증 받은 유저인지 확인.
+     */
+    @GetMapping("/auth-user/{public-key}")
+    public boolean isAuthUserController(@PathVariable("public-key") String publicKey){
+        return authService.isAuthenticatedUser(publicKey);
+    }
+
 }

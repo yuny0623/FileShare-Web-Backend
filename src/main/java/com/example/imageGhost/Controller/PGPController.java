@@ -7,7 +7,9 @@ import com.example.imageGhost.Service.PGPService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class PGPController {
@@ -32,6 +34,13 @@ public class PGPController {
      */
     @GetMapping("/pgp/{public-key}")
     public List<PGPMessage> receiveMessageViaPGPController(@PathVariable("public-key") String publicKey){
-        return pgpRepository.findAllByReceiverPublicKey(publicKey);
+        List<PGPMessage> pgpMessageList;
+        try {
+            pgpMessageList = pgpRepository.findAllByReceiverPublicKey(publicKey);
+        }catch(NoSuchElementException e){
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+        return pgpMessageList;
     }
 }

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
-public class EncDecTest {
+public class EncDecKeyTest {
 
     @Test
     void 비대칭키_역방향_테스트1_공개키에서_비밀키(){
