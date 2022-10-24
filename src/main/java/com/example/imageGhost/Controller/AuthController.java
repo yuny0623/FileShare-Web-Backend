@@ -90,5 +90,4 @@ public class AuthController {
     public boolean isAuthUserController(@PathVariable("public-key") String publicKey){
         return authService.isAuthenticatedUser(publicKey);
     }
-
 }

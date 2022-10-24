@@ -11,4 +11,5 @@ public interface FileRepository extends JpaRepository<EncFile, Long> {
     EncFile save(EncFile encfile);
     List<EncFile> findAll();
     void deleteByOwnerPublicKey(String ownerPublicKey);
+    void deleteAllByOwnerPublicKey(String ownerPublicKey);
 }

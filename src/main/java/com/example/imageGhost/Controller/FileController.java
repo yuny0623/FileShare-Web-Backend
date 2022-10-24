@@ -1,10 +1,7 @@
 package com.example.imageGhost.Controller;
 
-import com.example.imageGhost.Domain.AuthAnswer;
-import com.example.imageGhost.Domain.Dto.AuthAnswerDto;
 import com.example.imageGhost.Domain.Dto.EncFileDto;
 import com.example.imageGhost.Domain.EncFile;
-import com.example.imageGhost.Domain.User;
 import com.example.imageGhost.Repository.AuthAnswerRepository;
 import com.example.imageGhost.Repository.FileRepository;
 import com.example.imageGhost.Repository.UserRepository;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @RestController
 public class FileController {
@@ -58,9 +54,7 @@ public class FileController {
      */
     @PostMapping("/file")
     public EncFile saveFile(@RequestBody EncFileDto encFileDto){
-        // logging
         logger.info(encFileDto.getOwnerPublicKey() + ": saved file.");
-
         EncFile encFile = new EncFile();
         encFile.setCiphertext(encFileDto.getCiphertext());
         encFile.setOwnerPublicKey(encFileDto.getOwnerPublicKey());
@@ -76,18 +70,29 @@ public class FileController {
     }
 
     /*
-        내 EncFile 삭제 api - 인증된 사용자만 사용 가능
+        내 EncFile 단일 삭제 api - 인증된 사용자만 사용 가능
      */
-    @DeleteMapping("/file/{public-key}")
-    public boolean deleteEncFile(@PathVariable("public-key") String publicKey){
+    @DeleteMapping("/file/{public-key}/{id}")
+    public boolean deleteEncFile(@PathVariable("public-key") String publicKey, @PathVariable("id") Long id){
         if(!authService.isAuthenticatedUser(publicKey)){
             return false;
         }
-
         // logging
-        logger.info(publicKey + ": deleted file.");
+        logger.info(publicKey + ": deleted single EncFile. EncFile id:" + id);
+        fileRepository.deleteById(id);
+        return true;
+    }
 
-        fileRepository.deleteByOwnerPublicKey(publicKey);
+    /*
+        내 EncFile 모두 삭제 api - 인증된 사용자만 사용 가능
+     */
+    @DeleteMapping("/file/{public-key}")
+    public boolean deleteAllEncFile(@PathVariable("public-key") String publicKey){
+        if(!authService.isAuthenticatedUser(publicKey)){
+            return false;
+        }
+        logger.info(publicKey + ": deleted All EncFile.");
+        fileRepository.deleteAllByOwnerPublicKey(publicKey);
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.imageGhost.Utils;
 
+import com.example.imageGhost.Domain.PGPMessage;
 import lombok.Getter;
 import org.apache.catalina.Server;
 
@@ -14,7 +15,11 @@ public class ServerMetaInfoGenerator {
     public static ArrayList<String> PUBLIC_KEY_LIST = new ArrayList<>(); // public key 리스트
     private static final int KEY_SIZE = 2048;
     public static String SERVER_PUBLIC_KEY;
-    private static String SERVER_PRIVATE_KEY; // private key 키워드는 private 으로 지정. 
+    private static String SERVER_PRIVATE_KEY; // private key 키워드는 private 으로 지정.
+
+    public static HashMap<String, String> PGP_KEY_INFO = new HashMap<>();
+    public static HashMap<String, PGPMessage> PGP_MESSAGE_BOX = new HashMap<>();
+
     
     /*
         서버 전용 비대칭키 키페어 생성 - SpringBoot application 구동 실행됨
