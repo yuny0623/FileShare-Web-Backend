@@ -58,6 +58,7 @@ public class FileController {
      */
     @PostMapping("/file")
     public EncFile saveFile(@RequestBody EncFileDto encFileDto){
+        // logging
         logger.info(encFileDto.getOwnerPublicKey() + ": saved file.");
 
         EncFile encFile = new EncFile();
@@ -83,7 +84,9 @@ public class FileController {
             return false;
         }
 
+        // logging
         logger.info(publicKey + ": deleted file.");
+
         fileRepository.deleteByOwnerPublicKey(publicKey);
         return true;
     }

@@ -1,13 +1,20 @@
 2022-10-14
 
 참고 블로그:
+1. pgp 와 관련된 내용은 아래 블로그에 잘 정리되어있음.
+https://guide.jinbo.net/digital-security/communication-security/introduction-public-key-encryption
+
+2. Digital Signature 과 관련된 내용은 아래 블로그 참고
+https://www.geeksforgeeks.org/java-implementation-of-digital-signatures-in-cryptography/
+
 
 오늘 개발 컨셉:
-Docker 연동해볼까.
+Docker 연동해볼까. -> 가 아니라 private key encryption 해결하기.
 
 진행사항:
 Docker 연동 + mysql 연동까지 끝내기.
 
 
 이슈:
-이슈 없습니다.
+PGP 과정에서 Alice 의 private key 로 ecryption 해야하는데 private key로 encryption 하는 방식이 예시가 전무한데...
+

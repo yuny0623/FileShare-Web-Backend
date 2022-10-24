@@ -23,7 +23,7 @@ public class AgoraController {
     /*
         단일 게시물 조회
      */
-    @GetMapping("/board/{post-id}")
+    @GetMapping("/board/{id}")
     public Post getSinglePost(@PathVariable("id") Long postId){
         return postRepository.findById(postId).get();
     }

@@ -59,7 +59,7 @@ public class AuthService {
         클라이언트로부터 전달받은 정답지 해독
         -> 사용자 측에서는 정답지를 보낼때 본인의 private Key 로 난독화해서 보내기.
      */
-    public static String decryptCipherTextWithPrivateKey(String encryptedData, String stringPrivateKey){
+    public static String decryptCipherTextWithPrivateKey(String cipherText, String stringPrivateKey){
         String decryptedData = null;
         try {
             // Private Key 객체 생성
@@ -73,7 +73,7 @@ public class AuthService {
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
             // 암호문 복호화
-            byte[] byteEncryptedData = Base64.getDecoder().decode(encryptedData.getBytes());
+            byte[] byteEncryptedData = Base64.getDecoder().decode(cipherText.getBytes());
             byte[] byteDecryptedData = cipher.doFinal(byteEncryptedData);
             decryptedData = new String(byteDecryptedData);
         } catch (Exception e) {
