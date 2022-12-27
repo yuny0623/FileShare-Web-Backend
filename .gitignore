@@ -26,8 +26,10 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-# devlog
-# *.txt
+# dev log 
+./resources/Development Log
+devlog
+*.txt
 
 
 # settings file

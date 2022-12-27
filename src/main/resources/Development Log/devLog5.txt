@@ -1,5 +1,0 @@
-2022-10-24
-
-진행상황: Client 단에서 PGP 구현이 끝났음. PGP 로 주고받는 부분 구현하면 될듯.
-+ File share service 인데 File share 기능에서 blockchain file share service 처럼 만들어도 되지 않을까?
-
